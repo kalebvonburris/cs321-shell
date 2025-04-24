@@ -1,22 +1,24 @@
 use std::{fmt::Debug, io::Write};
 
 fn main() {
-    loop {
-        // Print prompt and wait for input
-        print!("cs321% ");
-        std::io::stdout().flush().unwrap();
-        let mut input: String = String::new();
-        std::io::stdin().read_line(&mut input).unwrap();
-        let mut input = input.trim().to_string();
+    unsafe {
+        loop {
+            // Print prompt and wait for input
+            print!("cs321% ");
+            std::io::stdout().flush().unwrap();
+            let mut input: String = String::new();
+            std::io::stdin().read_line(&mut input).unwrap();
+            let mut input: String = input.trim().to_string();
 
-        // "exit" case - quit operations.
-        if input == "exit" {
-            break;
+            // "exit" case - quit operations.
+            if input == "exit" {
+                return;
+            }
+
+            let commands = Commands::from_input(&mut input);
+
+            println!("{commands:#?}")
         }
-
-        let commands = Commands::from_input(&mut input);
-
-        println!("{commands:#?}")
     }
 }
 
@@ -35,6 +37,16 @@ impl CommandDelimiter {
             '|' => Some(CommandDelimiter::Pipette),
             '&' => Some(CommandDelimiter::Ampersand),
             ';' => Some(CommandDelimiter::SemiColon),
+            _ => None,
+        }
+    }
+
+    /// Returns the delimiter this char matches, or `None`.
+    pub fn from_str(input: &str) -> Option<Self> {
+        match input {
+            "|" => Some(CommandDelimiter::Pipette),
+            "&" => Some(CommandDelimiter::Ampersand),
+            ";" => Some(CommandDelimiter::SemiColon),
             _ => None,
         }
     }
@@ -62,21 +74,16 @@ impl Commands {
 
         let mut args = Vec::new();
 
-        for mut input in input.split(' ') {
-            for (pos, c) in input.chars().enumerate() {
-                if let Some(delimiter) = CommandDelimiter::from_char(c) {
-                    let split = input.split_at(pos);
-                    args.push(split.0.to_string());
-                    commands.push(Command {
-                        delimiter,
-                        command: args.remove(0),
-                        args: std::mem::take(&mut args),
-                    });
-
-                    input = split.1.split_at(1).1;
-                }
-                args.push(input.to_string());
+        for arg in input.split(' ') {
+            if let Some(delimiter) = CommandDelimiter::from_str(arg) {
+                commands.push(Command {
+                    delimiter,
+                    command: args.remove(0),
+                    args: std::mem::take(&mut args),
+                });
+                continue;
             }
+            args.push(arg.to_string());
         }
 
         // Parse the final command
