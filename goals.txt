@@ -1,0 +1,8 @@
+We have: A thing that takes input and parses it correctly.
+
+We need: 
+- To spawn a process using `fork()` that executes that processes' code using `execvp()`
+- To execute external commands (like ls, cd, etc.)
+- We wait for commands executed with ;, don't wait for commands executed with &
+- 100 character limit with ascii character limitations
+- print and help commands as well
