@@ -1,8 +1,6 @@
 use std::{fmt::Debug, io::Write};
 
 fn main() {
-    println!("Hello, world!");
-
     loop {
         // Print prompt and wait for input
         print!("cs321% ");
