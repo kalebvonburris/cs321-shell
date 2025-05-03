@@ -16,6 +16,12 @@ fn main() {
                 return;
             }
 
+            // Validate input using ASCII validation
+            if !is_valid_input_ascii(input) {
+                println!("Error: Invalid characters in input.");
+                continue;
+            } 
+
             // Check character length constraint (100 characters max)
             if input.len() > 100 {
                 println!("Error: Input exceeds 100 character limit.");
@@ -42,4 +48,23 @@ fn main() {
             }
         }
     }
+}
+
+
+// Helper function to validate if the input contains only allowed ASCII characters.
+fn is_valid_input_ascii(input: &str) -> bool {
+    input.chars().all(|c| {
+        let ascii = c as u8;
+        (ascii >= b'A' && ascii <= b'Z') || // A-Z
+        (ascii >= b'a' && ascii <= b'z') || // a-z
+        (ascii >= b'0' && ascii <= b'9') || // 0-9
+        ascii == b'-' ||                    // dash (-)
+        ascii == b'.' ||                    // dot (.)
+        ascii == b'/' ||                    // forward slash (/)
+        ascii == b'_' ||                    // underscore (_)
+        ascii == b' ' ||                    // space (for separation)
+        ascii == b';' ||                    // semicolon (for command separation)
+        ascii == b'&' ||                    // ampersand (for background execution)
+        ascii == b'|'                      // pipe (for piping commands)
+    })
 }
