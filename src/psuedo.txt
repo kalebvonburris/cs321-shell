@@ -1,0 +1,26 @@
+main() {
+    loop {
+        // Parse input
+        // Check for 100 chars and ascii compliance
+
+        for input {
+            // Give the command to an external function
+            execute_command(input);
+
+        }
+    }
+}
+
+execute_command(input) {
+    // Check if the command is print, help, or exit
+
+    // Check if the command is in /usr/bin
+
+    execute(formatted_input);
+}
+
+execute(command) {
+    fork() {
+        execvp(command);
+    }
+}
