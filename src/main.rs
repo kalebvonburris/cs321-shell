@@ -54,6 +54,7 @@ fn main() {
                         if command.args[0] == ".." {
 
                             path.pop();
+                            std::env::set_current_dir(&path);
 
                         } else {
 
@@ -61,7 +62,7 @@ fn main() {
 
                             if path.is_dir() {
 
-                                set_current_dir(&path);
+                                std::env::set_current_dir(&path);
 
                             }
 
