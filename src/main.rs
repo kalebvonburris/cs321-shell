@@ -49,7 +49,7 @@ fn main() {
                     
                     if command.args.len() == 1 {
 
-                        let mut path = env::current_dir().unwrap();
+                        let mut path = std::env::current_dir().unwrap();
 
                         if command.args[0] == ".." {
 
