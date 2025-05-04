@@ -51,7 +51,7 @@ fn main() {
                     
                     if command.args.len() != 1 {
 
-                        printf!("Error: Invalid number of arguments.")
+                        printf!("Error: Invalid number of arguments.");
                         continue;
 
                     } else {
