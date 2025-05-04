@@ -14,11 +14,13 @@ fn main() {
             //print PID
             if input == "print" {
                 println!("{}",std::process::id());
+                continue;
             }
 
             //help
             if input == "help" {
                 println!("cd - changes working directory\nprint - gets PID\nexit - exits the program\ngetdir - prints working directory");
+                continue;
             }
 
             // "exit" case - quit operations.
@@ -47,7 +49,12 @@ fn main() {
                 
                 if command.command == "cd" {
                     
-                    if command.args.len() == 1 {
+                    if command.args.len() != 1 {
+
+                        printf!("Error: Invalid number of arguments.")
+                        continue;
+
+                    } else {
 
                         let mut path = std::env::current_dir().unwrap();
 
