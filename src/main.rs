@@ -70,6 +70,8 @@ fn main() {
 
                     }
 
+                    continue;
+
                 }
                 
                 let id = execute(command);
