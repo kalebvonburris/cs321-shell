@@ -58,7 +58,7 @@ fn main() {
 
                         } else {
 
-                            path.push(command.args[0]);
+                            path.push(command.args[0].clone());
 
                             if path.is_dir() {
 
