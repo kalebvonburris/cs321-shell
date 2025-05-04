@@ -10,6 +10,16 @@ fn main() {
             let mut input: String = String::new();
             std::io::stdin().read_line(&mut input).unwrap();
             let mut input: String = input.trim().to_string();
+            
+            //print PID
+            if input == "print" {
+                println!("{}",std::process::id());
+            }
+
+            //help
+            if input == "help" {
+                println!("cd - changes working directory\nprint - gets PID\nexit - exits the program\ngetdir - prints working directory");
+            }
 
             // "exit" case - quit operations.
             if input == "exit" {
@@ -34,6 +44,33 @@ fn main() {
             // Execute commands
             for command in commands.commands {
                 let delimiter = command.delimiter.clone();
+                
+                if command.command == "cd" {
+                    
+                    if command.args.len() == 1 {
+
+                        let mut path = env::current_dir().unwrap();
+
+                        if command.args[0] == ".." {
+
+                            path.pop();
+
+                        } else {
+
+                            path.push(command.args[0]);
+
+                            if path.is_dir() {
+
+                                set_current_dir(&path);
+
+                            }
+
+                        }
+
+                    }
+
+                }
+                
                 let id = execute(command);
 
                 // Child process id is 0, so we end the execution
