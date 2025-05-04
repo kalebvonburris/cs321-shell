@@ -10,6 +10,18 @@ fn main() {
             let mut input: String = String::new();
             std::io::stdin().read_line(&mut input).unwrap();
             let mut input: String = input.trim().to_string();
+            
+            //print PID
+            if input == "print" {
+                println!("{}",std::process::id());
+                continue;
+            }
+
+            //help
+            if input == "help" {
+                println!("cd - changes working directory\nprint - gets PID\nexit - exits the program\ngetdir - prints working directory");
+                continue;
+            }
 
             // "exit" case - quit operations.
             if input == "exit" {
@@ -17,7 +29,7 @@ fn main() {
             }
 
             // Validate input using ASCII validation
-            if !is_valid_input_ascii(input) {
+            if !is_valid_input_ascii(&input) {
                 println!("Error: Invalid characters in input.");
                 continue;
             } 
@@ -34,6 +46,41 @@ fn main() {
             // Execute commands
             for command in commands.commands {
                 let delimiter = command.delimiter.clone();
+                
+                if command.command == "cd" {
+                    
+                    if command.args.len() != 1 {
+
+                        println!("Error: Invalid number of arguments.");
+                        continue;
+
+                    } else {
+
+                        let mut path = std::env::current_dir().unwrap();
+
+                        if command.args[0] == ".." {
+
+                            path.pop();
+                            std::env::set_current_dir(&path).unwrap();
+
+                        } else {
+
+                            path.push(command.args[0].clone());
+
+                            if path.is_dir() {
+
+                                std::env::set_current_dir(&path).unwrap();
+
+                            }
+
+                        }
+
+                    }
+
+                    continue;
+
+                }
+                
                 let id = execute(command);
 
                 // Child process id is 0, so we end the execution
