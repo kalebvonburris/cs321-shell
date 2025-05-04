@@ -27,7 +27,7 @@ fn main() {
             }
 
             // Validate input using ASCII validation
-            if !is_valid_input_ascii(input) {
+            if !is_valid_input_ascii(&input) {
                 println!("Error: Invalid characters in input.");
                 continue;
             } 
